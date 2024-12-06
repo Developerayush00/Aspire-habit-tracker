@@ -123,183 +123,117 @@ function deleteHabit(index) {
     loadHabits();
   }
 }
-
 // Calendar Tab Logic
 function loadCalendar() {
-  const calendarElement = document.createElement("div");
-  calendarElement.className = "calendar";
-  
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth(); // 0-11
-  const currentYear = currentDate.getFullYear();
+  const calendar = generateCalendarHTML();
+  calendarContainer.innerHTML = calendar;
+}
 
-  // Display current month and year
-  const monthYearDisplay = document.createElement("div");
-  monthYearDisplay.className = "month-year";
-  monthYearDisplay.innerText = `${getMonthName(currentMonth)} ${currentYear}`;
-  calendarElement.appendChild(monthYearDisplay);
+function generateCalendarHTML() {
+  const selectedDate = new Date(today);
+  const firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+  const lastDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+  let html = `<div class="calendar-header">
+                <button onclick="navigateCalendar(-1)">◀️</button>
+                <span>${selectedDate.toLocaleString("default", { month: "long" })} ${selectedDate.getFullYear()}</span>
+                <button onclick="navigateCalendar(1)">▶️</button>
+              </div>
+              <div class="calendar-grid">`;
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const calendarGrid = document.createElement("div");
-  calendarGrid.className = "calendar-grid";
-  calendarElement.appendChild(calendarGrid);
+  daysOfWeek.forEach((day) => (html += `<div class="calendar-day">${day}</div>`));
 
-  // Generate days of the month
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // Get the last day of the current month
+  for (let i = 0; i < firstDay.getDay(); i++) html += `<div class="calendar-empty"></div>`;
 
-  // Fill calendar with day numbers
-  for (let day = 1; day <= daysInMonth; day++) {
-    const dayElement = document.createElement("div");
-    dayElement.className = "calendar-day";
-    dayElement.innerText = day;
-
-    // Highlight today's date
-    const today = new Date();
-    if (today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear) {
-      dayElement.classList.add("today");
-    }
-
-    // Add click event to open to-do list for the day
-    dayElement.addEventListener("click", () => openTodoList(currentYear, currentMonth, day));
-
-    calendarGrid.appendChild(dayElement);
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const currentDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day).toISOString().split("T")[0];
+    const highlight = currentDay === today ? "highlight" : "";
+    html += `<div class="calendar-date ${highlight}" onclick="loadTodosForDate('${currentDay}')">${day}</div>`;
   }
 
-  // Display the calendar on the page
-  document.getElementById("calendar-container").innerHTML = "";
-  document.getElementById("calendar-container").appendChild(calendarElement);
+  html += `</div>`;
+  return html;
 }
 
-function getMonthName(monthIndex) {
-  const months = [
-    "January", "February", "March", "April", "May", "June", 
-    "July", "August", "September", "October", "November", "December"
-  ];
-  return months[monthIndex];
-}
-
-function openTodoList(year, month, day) {
-  const dateKey = `${year}-${month + 1}-${day}`; // Format as YYYY-MM-DD
-  const todosForDate = todos[dateKey] || [];
-  
-  // Display the to-do list for that date
-  const todoListDiv = document.createElement("div");
-  todoListDiv.className = "todo-list";
-  todoListDiv.innerHTML = `<h3>To-Do List for ${dateKey}</h3>`;
-
-  todosForDate.forEach((todo, index) => {
-    const todoItemDiv = document.createElement("div");
-    todoItemDiv.className = "todo-item";
-    todoItemDiv.innerHTML = `
-      <span class="todo-name">${todo}</span>
-      <button onclick="editTodo(${year}, ${month}, ${day}, ${index})">✏️</button>
-      <button onclick="deleteTodo(${year}, ${month}, ${day}, ${index})">❌</button>
-    `;
-    todoListDiv.appendChild(todoItemDiv);
-  });
-
-  document.getElementById("calendar-container").appendChild(todoListDiv);
-}
-
-function editTodo(year, month, day, index) {
-  const dateKey = `${year}-${month + 1}-${day}`;
-  const newTodo = prompt("Edit To-Do:", todos[dateKey][index]);
-  if (newTodo) {
-    todos[dateKey][index] = newTodo;
-    saveData();
-    loadCalendar();
-  }
-}
-
-function deleteTodo(year, month, day, index) {
-  const dateKey = `${year}-${month + 1}-${day}`;
-  todos[dateKey].splice(index, 1);
-  saveData();
+function navigateCalendar(offset) {
+  const current = new Date(today);
+  const newMonth = new Date(current.getFullYear(), current.getMonth() + offset, 1);
+  today = newMonth.toISOString().split("T")[0];
   loadCalendar();
+}
+
+function loadTodosForDate(date) {
+  today = date;
+  loadTodos();
 }
 
 // Reward Tab Logic
 function loadRewards() {
-  const rewardShop = [
-    { name: "Anime Avatar", xpCost: 50 },
-    { name: "Cool Profile Badge", xpCost: 100 },
-    { name: "Superpower Boost", xpCost: 150 },
-    // Add more rewards as needed
-  ];
-
-  rewardContainer.innerHTML = "<h3>Reward Shop</h3>";
-
-  rewardShop.forEach((reward, index) => {
-    const rewardDiv = document.createElement("div");
-    rewardDiv.className = "reward-item";
-    rewardDiv.innerHTML = `
-      <span class="reward-name">${reward.name}</span>
-      <span class="xp-cost">Cost: ${reward.xpCost} XP</span>
-      <button onclick="redeemReward(${index}, ${reward.xpCost})">Redeem</button>
-    `;
-    rewardContainer.appendChild(rewardDiv);
-  });
+  rewardContainer.innerHTML = `
+    <div class="xp-info">
+      XP: ${xp} | Level: ${level}
+      <div class="progress-bar">
+        <div id="progress-fill" style="width: ${calculateProgress()}%;"></div>
+      </div>
+    </div>
+    <div class="reward-items">
+      <div class="reward-item">
+        <img src="path/to/image1.png" alt="Reward 1" />
+        <p>Reward 1 (50 XP)</p>
+        <button onclick="redeemReward(50)">Redeem</button>
+      </div>
+      <div class="reward-item">
+        <img src="path/to/image2.png" alt="Reward 2" />
+        <p>Reward 2 (100 XP)</p>
+        <button onclick="redeemReward(100)">Redeem</button>
+      </div>
+      <!-- Add more rewards as needed -->
+    </div>
+  `;
 }
 
-function redeemReward(index, xpCost) {
-  if (xp >= xpCost) {
-    xp -= xpCost;
+function calculateProgress() {
+  return Math.min(((xp - (level - 1) * 100) / 100) * 100, 100);
+}
+
+function redeemReward(cost) {
+  if (xp >= cost) {
+    xp -= cost;
     alert("Reward Redeemed!");
     updateProgress();
     loadRewards();
   } else {
-    alert("Not enough XP to redeem this reward.");
+    alert("Not enough XP!");
   }
 }
 
-// XP System & Progress Update
+// Level Up Logic
+function checkLevelUp() {
+  if (xp >= level * 100) {
+    level++;
+    alert("Level Up!");
+  }
+}
+
 function updateProgress() {
+  levelDisplay.innerText = `Level ${level}`;
   xpDisplay.innerText = `XP: ${xp}`;
-  levelDisplay.innerText = `Level: ${level}`;
-
-  // Level Up Logic
-  if (xp >= 500 && level === 1) {
-    level = 2;
-    alert("Congratulations! You've leveled up to Level 2!");
-  } else if (xp >= 1000 && level === 2) {
-    level = 3;
-    alert("Congratulations! You've leveled up to Level 3!");
-  }
-
-  // Progress Bar
-  const progress = (xp / 1000) * 100; // XP-to-Progress ratio
-  progressBarFill.style.width = `${progress}%`;
-  if (progress > 100) progressBarFill.style.width = "100%";
+  progressBarFill.style.width = `${calculateProgress()}%`;
 }
 
-// Save Data to Local Storage
+// Data Persistence
 function saveData() {
   localStorage.setItem("habits", JSON.stringify(habits));
   localStorage.setItem("todos", JSON.stringify(todos));
   localStorage.setItem("streaks", JSON.stringify(streaks));
-  localStorage.setItem("xp", JSON.stringify(xp));
-  localStorage.setItem("level", JSON.stringify(level));
+  localStorage.setItem("xp", xp);
+  localStorage.setItem("level", level);
 }
 
-// Load Data from Local Storage
 function loadData() {
   habits = JSON.parse(localStorage.getItem("habits")) || {};
   todos = JSON.parse(localStorage.getItem("todos")) || {};
   streaks = JSON.parse(localStorage.getItem("streaks")) || {};
-  xp = JSON.parse(localStorage.getItem("xp")) || 100;
-  level = JSON.parse(localStorage.getItem("level")) || 1;
+  xp = parseInt(localStorage.getItem("xp")) || 100;
+  level = parseInt(localStorage.getItem("level")) || 1;
 }
-
-// Tab Navigation Logic
-function setupTabNavigation() {
-  tabButtons.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      tabButtons.forEach((btn) => btn.classList.remove("active"));
-      tabContents.forEach((content) => content.classList.add("hidden"));
-      btn.classList.add("active");
-      tabContents[index].classList.remove("hidden");
-    });
-  });
-}
-
-// Initialize Everything
-init();
