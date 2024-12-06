@@ -4,63 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aspire Habit Tracker</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="app">
-    <header>
-      <h1>Aspire Habit Tracker</h1>
-      <nav>
-        <button class="tab-btn active" data-tab="tracker-tab">🔥</button>
-        <button class="tab-btn" data-tab="calendar-tab">📅</button>
-        <button class="tab-btn" data-tab="rewards-tab">🏆</button>
-      </nav>
-    </header>
+    <!-- Navigation Bar -->
+    <nav>
+      <button class="tab-btn active" data-tab="habit-tracker">
+        <img src="icons/habit.png" alt="Habit Tracker" />
+      </button>
+      <button class="tab-btn" data-tab="calendar">
+        <img src="icons/calendar.png" alt="Calendar" />
+      </button>
+      <button class="tab-btn" data-tab="reward-shop">
+        <img src="icons/shop.png" alt="Reward Shop" />
+      </button>
+    </nav>
 
-    <main>
-      <!-- Habit Tracker Tab -->
-      <section id="tracker-tab" class="tab-content active">
-        <h2>Habit Tracker</h2>
-        <div id="tracker-header">
-          <p id="today-date">Today: <span class="emoji">🗓️</span></p>
-          <div id="mini-calendar"></div>
-        </div>
-        <div id="habit-list"></div>
-        <button id="add-habit">+ Add Habit</button>
-      </section>
+    <!-- Habit Tracker Section -->
+    <section id="habit-tracker" class="tab-content active">
+      <h2>Habit Tracker</h2>
+      <p>Today's Date: <span id="today-date"></span></p>
+      <div id="habit-list"></div>
+      <button id="add-habit">+ Add Habit</button>
+    </section>
 
-      <!-- Calendar Tab -->
-      <section id="calendar-tab" class="tab-content">
-        <h2>Calendar</h2>
-        <div id="calendar-container"></div>
+    <!-- Calendar Section -->
+    <section id="calendar" class="tab-content">
+      <h2>Calendar</h2>
+      <div id="calendar-container"></div>
+      <div id="todo-section">
         <h3>To-Do List</h3>
         <ul id="todo-items"></ul>
         <button id="add-todo">+ Add To-Do</button>
-      </section>
+      </div>
+    </section>
 
-      <!-- Rewards Tab -->
-      <section id="rewards-tab" class="tab-content">
-        <h2>Rewards</h2>
-        <div id="xp-section">
-          <p>XP: <span id="xp-display">100</span></p>
-          <p>Level: <span id="level-display">1</span></p>
-          <div id="progress-bar">
-            <div id="progress-fill"></div>
-          </div>
+    <!-- Reward Shop Section -->
+    <section id="reward-shop" class="tab-content">
+      <h2>Reward Shop</h2>
+      <div class="stats">
+        <p>XP: <span id="xp-display">0</span></p>
+        <p>Level: <span id="level-display">1</span></p>
+        <div id="progress-bar">
+          <div id="progress-fill"></div>
         </div>
-        <div id="reward-container">
-          <h3>Reward Shop</h3>
-          <p>Anime Profile Pictures:</p>
-          <ul>
-            <li><button class="reward-btn">Naruto (50 XP)</button></li>
-            <li><button class="reward-btn">Bleach (50 XP)</button></li>
-            <li><button class="reward-btn">Blue Lock (50 XP)</button></li>
-            <li><button class="reward-btn">Demon Slayer (50 XP)</button></li>
-          </ul>
-        </div>
-      </section>
-    </main>
+      </div>
+      <div id="reward-container"></div>
+    </section>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
