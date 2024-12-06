@@ -4,54 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aspire Habit Tracker</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="app">
-    <!-- Navigation Bar -->
-    <nav>
-      <button class="tab-btn active" data-tab="habit-tracker">
-        <img src="icons/habit.png" alt="Habit Tracker" />
-      </button>
-      <button class="tab-btn" data-tab="calendar">
-        <img src="icons/calendar.png" alt="Calendar" />
-      </button>
-      <button class="tab-btn" data-tab="reward-shop">
-        <img src="icons/shop.png" alt="Reward Shop" />
-      </button>
+  <div class="container">
+    <header class="header">
+      <h1>Aspire Habit Tracker</h1>
+    </header>
+    <nav class="tabs">
+      <button id="tab-habits" onclick="showTab('habits')">📝</button>
+      <button id="tab-calendar" onclick="showTab('calendar')">📅</button>
+      <button id="tab-rewards" onclick="showTab('rewards')">🎁</button>
     </nav>
 
-    <!-- Habit Tracker Section -->
-    <section id="habit-tracker" class="tab-content active">
-      <h2>Habit Tracker</h2>
-      <p>Today's Date: <span id="today-date"></span></p>
-      <div id="habit-list"></div>
-      <button id="add-habit">+ Add Habit</button>
+    <!-- Habit Tracker Tab -->
+    <section id="habits-tab" class="tab-content">
+      <div id="today-date">🗓 Today's Date: <span id="current-date"></span></div>
+      <div id="mini-calendar" class="mini-calendar hidden"></div>
+      <ul id="habit-list" class="habit-list"></ul>
+      <button id="add-habit-button" onclick="openHabitModal()">➕ Add Habit</button>
     </section>
 
-    <!-- Calendar Section -->
-    <section id="calendar" class="tab-content">
-      <h2>Calendar</h2>
-      <div id="calendar-container"></div>
-      <div id="todo-section">
-        <h3>To-Do List</h3>
-        <ul id="todo-items"></ul>
-        <button id="add-todo">+ Add To-Do</button>
-      </div>
+    <!-- Calendar Tab -->
+    <section id="calendar-tab" class="tab-content hidden">
+      <div id="calendar-container" class="calendar-container"></div>
+      <ul id="todo-list" class="todo-list"></ul>
+      <button id="add-todo-button" onclick="openTodoModal()">➕ Add To-Do</button>
     </section>
 
-    <!-- Reward Shop Section -->
-    <section id="reward-shop" class="tab-content">
-      <h2>Reward Shop</h2>
-      <div class="stats">
-        <p>XP: <span id="xp-display">0</span></p>
-        <p>Level: <span id="level-display">1</span></p>
-        <div id="progress-bar">
+    <!-- Rewards Tab -->
+    <section id="rewards-tab" class="tab-content hidden">
+      <div class="xp-display">
+        <p>XP: <span id="xp-display">100</span> | Level: <span id="level-display">1</span></p>
+        <div class="progress-bar">
           <div id="progress-fill"></div>
         </div>
       </div>
-      <div id="reward-container"></div>
+      <div id="reward-container" class="reward-container"></div>
     </section>
+  </div>
+
+  <!-- Modals -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modal-title"></h2>
+      <input type="text" id="modal-input" placeholder="Enter details">
+      <button onclick="saveModal()">Save</button>
+      <button onclick="closeModal()">Cancel</button>
+    </div>
   </div>
 
   <script src="script.js"></script>
