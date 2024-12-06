@@ -1,57 +1,86 @@
-
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+#app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 nav {
-    display: flex;
-    justify-content: space-around;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
 }
 
-.tab-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
+nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
 
-.tab-btn img {
-    width: 30px;
-    height: 30px;
+nav button.active img {
+  transform: scale(1.1);
 }
 
 .tab-content {
-    display: none;
-    padding: 20px;
+  display: none;
 }
 
 .tab-content.active {
-    display: block;
+  display: block;
 }
 
-#habit-list, #todo-items, #reward-container {
-    margin: 20px 0;
+/* Habit Tracker */
+#habit-list div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
 button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+  cursor: pointer;
+  padding: 5px 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
 
 button:hover {
-    background-color: #0056b3;
+  background-color: #45a049;
 }
-/* Progress Bar Styles */
+
+/* Calendar */
+#calendar-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+/* To-Do List */
+#todo-items li.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Reward Shop */
 #progress-bar {
   width: 100%;
   background-color: #ddd;
@@ -66,10 +95,4 @@ button:hover {
   background-color: #4caf50;
   width: 0%;
   transition: width 0.3s;
-}
-
-/* To-Do List Styles */
-#todo-items li.completed {
-  text-decoration: line-through;
-  color: #888;
 }
