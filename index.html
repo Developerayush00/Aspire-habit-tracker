@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aspire Habit Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <nav>
+            <button class="tab-btn active" data-tab="habit-tracker">
+                <img src="icons/habit.png" alt="Habit Tracker" />
+            </button>
+            <button class="tab-btn" data-tab="calendar">
+                <img src="icons/calendar.png" alt="Calendar" />
+            </button>
+            <button class="tab-btn" data-tab="reward-shop">
+                <img src="icons/shop.png" alt="Reward Shop" />
+            </button>
+        </nav>
+
+        <!-- Habit Tracker Tab -->
+        <section id="habit-tracker" class="tab-content active">
+            <h2>Habit Tracker</h2>
+            <div id="habit-list"></div>
+            <button id="add-habit">Add Habit</button>
+        </section>
+
+        <!-- Calendar Tab -->
+        <section id="calendar" class="tab-content">
+            <h2>Calendar</h2>
+            <div id="calendar-container"></div>
+            <div id="todo-list">
+                <h3>To-Do List</h3>
+                <ul id="todo-items"></ul>
+                <button id="add-todo">Add To-Do</button>
+            </div>
+        </section>
+
+        <!-- Reward Shop Tab -->
+        <section id="reward-shop" class="tab-content">
+            <h2>Reward Shop</h2>
+            <div id="reward-container"></div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
