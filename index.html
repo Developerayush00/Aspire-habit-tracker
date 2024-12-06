@@ -8,7 +8,7 @@
 </head>
 <body>
   <div id="app">
-    <!-- Navigation Tabs -->
+    <!-- Navigation Bar -->
     <nav>
       <button class="tab-btn active" data-tab="habit-tracker">
         <img src="icons/habit.png" alt="Habit Tracker" />
@@ -21,32 +21,34 @@
       </button>
     </nav>
 
-    <!-- Habit Tracker Tab -->
+    <!-- Habit Tracker Section -->
     <section id="habit-tracker" class="tab-content active">
       <h2>Habit Tracker</h2>
-      <p>Date: <span id="today-date"></span></p>
+      <p>Today's Date: <span id="today-date"></span></p>
       <div id="habit-list"></div>
-      <button id="add-habit">Add Habit</button>
+      <button id="add-habit">+ Add Habit</button>
     </section>
 
-    <!-- Calendar Tab -->
+    <!-- Calendar Section -->
     <section id="calendar" class="tab-content">
       <h2>Calendar</h2>
       <div id="calendar-container"></div>
       <div id="todo-section">
         <h3>To-Do List</h3>
         <ul id="todo-items"></ul>
-        <button id="add-todo">Add To-Do</button>
+        <button id="add-todo">+ Add To-Do</button>
       </div>
     </section>
 
-    <!-- Reward Shop Tab -->
+    <!-- Reward Shop Section -->
     <section id="reward-shop" class="tab-content">
       <h2>Reward Shop</h2>
-      <p>XP: <span id="xp-display">0</span></p>
-      <p>Level: <span id="level-display">1</span></p>
-      <div id="progress-bar">
-        <div id="progress-fill"></div>
+      <div class="stats">
+        <p>XP: <span id="xp-display">0</span></p>
+        <p>Level: <span id="level-display">1</span></p>
+        <div id="progress-bar">
+          <div id="progress-fill"></div>
+        </div>
       </div>
       <div id="reward-container"></div>
     </section>
